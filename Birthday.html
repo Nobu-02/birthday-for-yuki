@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday ゆき</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Hiragino Maru Gothic ProN", "Yu Gothic", sans-serif;
+      background: linear-gradient(#bde3ff, #ffffff);
+      overflow-x: hidden;
+      overflow-y: auto;
+      text-align: center;
+      color: #3b5f8a;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    .sky-container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    /* Background Cinnamoroll */
+    .cinnamoroll-bg {
+      position: absolute;
+      bottom: -5%;
+      right: -5%;
+      width: 70vw;
+      max-width: 420px;
+      opacity: 0.25;
+      animation: floatBg 8s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    @keyframes floatBg {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* Foreground Cinnamoroll */
+    .cinnamoroll-fore {
+      position: relative;
+      margin: 40px auto 10px auto;
+      width: 45vw;
+      max-width: 220px;
+      animation: bounce 2.2s ease-in-out infinite;
+      z-index: 3;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    .content {
+      position: relative;
+      z-index: 4;
+      padding: 10px 20px 40px 20px;
+    }
+
+    h2 {
+      color: #4a7dbb;
+      margin-bottom: 6px;
+      font-size: 1.6rem;
+    }
+
+    .subtitle {
+      color: #4a7dbb;
+      font-size: 0.95rem;
+      margin-bottom: 18px;
+    }
+
+    /* Cloud button */
+    #startBtn {
+      margin-top: 10px;
+      padding: 14px 34px;
+      background: #ffffff;
+      border-radius: 999px;
+      border: 2px solid #a3d4ff;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 0 12px rgba(208, 236, 255, 0.9);
+      color: #4a7dbb;
+    }
+
+    #startBtn:hover {
+      background: #e8f6ff;
+      transform: scale(1.05);
+    }
+
+    /* Main birthday message */
+    #mainMessage {
+      display: none;
+      margin-top: 26px;
+      font-size: 1.6rem;
+      color: #4a7dbb;
+      text-shadow: 0 0 8px rgba(255,255,255,0.9);
+      animation: fadeInGlow 1.8s forwards;
+    }
+
+    @keyframes fadeInGlow {
+      0% { opacity: 0; transform: translateY(15px); text-shadow: none; }
+      100% { opacity: 1; transform: translateY(0); text-shadow: 0 0 12px rgba(255,255,255,0.9); }
+    }
+
+    /* Letter */
+    #letter {
+      display: none;
+      margin: 24px auto 10px auto;
+      width: 88%;
+      max-width: 520px;
+      font-size: 0.98rem;
+      line-height: 1.9;
+      color: #3b5f8a;
+      background: rgba(255,255,255,0.82);
+      padding: 18px 18px 22px 18px;
+      border-radius: 18px;
+      box-shadow: 0 8px 18px rgba(120, 160, 200, 0.25);
+      animation: fadeInUp 1.8s forwards;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Signature */
+    #signature {
+      display: none;
+      margin-top: 18px;
+      font-size: 1.1rem;
+      color: #4a7dbb;
+      font-weight: bold;
+      position: relative;
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    #signature span {
+      display: inline-block;
+      transform: translateY(100%);
+      opacity: 0;
+      animation: signatureWrite 2.8s forwards;
+    }
+
+    @keyframes signatureWrite {
+      0% { transform: translateY(100%); opacity: 0; }
+      30% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Hearts + balloons */
+    .floating-layer {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .heart, .balloon {
+      position: absolute;
+      bottom: -10%;
+      opacity: 0.9;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+    }
+
+    .heart {
+      width: 16px;
+      height: 16px;
+      background: #ff9fcf;
+      transform: rotate(45deg);
+      box-shadow: -6px 0 0 #ff9fcf;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      background: #ff9fcf;
+      border-radius: 50%;
+    }
+
+    .heart::before { top: -8px; left: 0; }
+    .heart::after { left: -8px; top: 0; }
+
+    .heart.blue {
+      background: #8fd3ff;
+      box-shadow: -6px 0 0 #8fd3ff;
+    }
+
+    .heart.blue::before,
+    .heart.blue::after {
+      background: #8fd3ff;
+    }
+
+    .balloon {
+      width: 22px;
+      height: 30px;
+      border-radius: 50% 50% 45% 45%;
+      background: #ffffff;
+      box-shadow: 0 0 8px rgba(255,255,255,0.9);
+      position: absolute;
+    }
+
+    .balloon::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      width: 1px;
+      height: 16px;
+      background: rgba(120, 160, 200, 0.7);
+      transform: translateX(-50%);
+    }
+
+    .balloon.blue {
+      background: #8fd3ff;
+      box-shadow: 0 0 8px rgba(143,211,255,0.9);
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) translateX(0); opacity: 0; }
+      10% { opacity: 1; }
+      100% { transform: translateY(-120vh) translateX(20px); opacity: 0; }
+    }
+
+    @media (max-width: 600px) {
+      .cinnamoroll-bg {
+        width: 85vw;
+        opacity: 0.22;
+      }
+      .cinnamoroll-fore {
+        width: 55vw;
+        margin-top: 30px;
+      }
+      #letter {
+        font-size: 0.95rem;
+      }
+      #mainMessage {
+        font-size: 1.4rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="sky-container">
+
+    <!-- Background Cinnamoroll -->
+    <img class="cinnamoroll-bg"
+      src="C:\HTML\WebKiso\Try\cinnamoroll-dancing-funny-sticker-usagif.gif">
+
+    <!-- Hearts + balloons -->
+    <div class="floating-layer" id="floatingLayer"></div>
+
+    <div class="content">
+      <!-- Foreground Cinnamoroll -->
+      <img class="cinnamoroll-fore"
+        src="C:\HTML\WebKiso\Try\cinnamoroll.gif">
+
+      <h2>ゆきへ</h2>
+      <p class="subtitle">シナモロールからの　おでむかえだよ</p>
+
+      <button id="startBtn">☁️ クリックしてね ☁️</button>
+
+      <div id="mainMessage">お誕生日おめでとう　ゆき</div>
+
+<div id="letter">
+        ゆき、<br><br>
+        おたんじょうび　おめでとう 🎂💙<br><br>
+
+        さいきん　なかなか　あえなくて、<br>
+        ほんとうに　さみしいし、さびしいよ。<br>
+        ゆきの　えがおが　みたくて、<br>
+        ずっと　あいたいと　おもってるんだよ 🌤️<br><br>
+
+        ゆきは、まわりのひとを<br>
+        あたたかいきもちにしてくれる、<br>
+        とても　やさしいひとだよ 💐<br><br>
+
+        その　えがおに、<br>
+        なんども　たすけられてきたし、<br>
+        これからも　ずっと<br>
+        たいせつにしたいと　おもってる 💞<br><br>
+
+        ゆきの　これからの１ねんが、<br>
+        しあわせで　いっぱいに<br>
+        なりますように ☁️✨<br><br>
+
+        また　はやく　あいたいな 💙<br>
+</div>
+
+      <div id="signature">
+        <span>From Samir（サミール）</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const startBtn = document.getElementById("startBtn");
+    const mainMessage = document.getElementById("mainMessage");
+    const letter = document.getElementById("letter");
+    const signature = document.getElementById("signature");
+    const floatingLayer = document.getElementById("floatingLayer");
+
+    let started = false;
+
+    // Floating hearts + balloons
+    function createFloatingElement() {
+      const isHeart = Math.random() < 0.6;
+      let el;
+
+      if (isHeart) {
+        el = document.createElement("div");
+        el.classList.add("heart");
+        if (Math.random() < 0.5) el.classList.add("blue");
+      } else {
+        el = document.createElement("div");
+        el.classList.add("balloon");
+        if (Math.random() < 0.5) el.classList.add("blue");
+      }
+
+      const sizeFactor = 0.7 + Math.random() * 1.3;
+      el.style.left = Math.random() * 100 + "vw";
+      el.style.animationDuration = 10 + Math.random() * 12 + "s";
+      el.style.animationName = "floatUp";
+      el.style.transform = "scale(" + sizeFactor + ")";
+      floatingLayer.appendChild(el);
+
+      setTimeout(() => el.remove(), 25000);
+    }
+
+    setInterval(createFloatingElement, 900);
+
+    // Start sequence
+    startBtn.addEventListener("click", () => {
+      if (started) return;
+      started = true;
+
+      mainMessage.style.display = "block";
+
+      setTimeout(() => {
+        letter.style.display = "block";
+      }, 1200);
+
+      setTimeout(() => {
+        signature.style.display = "inline-block";
+      }, 2600);
+    });
+  </script>
+
+</body>
+</html>
